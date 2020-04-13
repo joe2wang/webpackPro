@@ -21,26 +21,13 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        // use: ['style-loader', 'css-loader']
         use: ExtractTextWebpackPlugin.extract({
           fallback: 'style-loader',
-          // use: 'css-loader'
+          publicPath: '../',
           use: [
             {
               loader: 'css-loader',
               options: {
-                // See https://github.com/webpack-contrib/css-loader#url
-                url: (url, resourcePath) => {
-                  // resourcePath - path to css file
-                  console.log(url, resourcePath)
-                  // // Don't handle `img.png` urls
-                  // if (url.includes('img.png')) {
-                  //   return false;
-                  // }
-
-                  return true
-                }, //这个设置为true后，css的background引入的url路径才对，否则会找不到路径
-                //minimize: true,
                 sourceMap: true
               }
             }
@@ -49,7 +36,14 @@ module.exports = {
       },
       {
         test: /\.(jpg|svg|png|gif|ttf)$/,
-        use: ['file-loader']
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'images'
+            }
+          }
+        ]
       }
     ]
   },
