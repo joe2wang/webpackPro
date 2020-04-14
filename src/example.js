@@ -1,9 +1,9 @@
-import './example.css'
+import './css/example.css'
 import src from './images/file.jpg'
 import printMe from './print'
 import { cube } from './math'
-import _ from 'lodash'
-function component () {
+import './another'
+async function componentFn () {
   var element = document.createElement('div')
   element.align = 'center'
 
@@ -18,11 +18,18 @@ function component () {
   var img = new Image()
   img.src = src
 
+  var mod = document.createElement('div')
+  const _ = await import('lodash')
+  mod.innerHTML = _.join(['Index', 'module', 'loaded!'], ' ')
+
   element.appendChild(img)
   element.appendChild(hello)
   element.appendChild(btn)
-  console.log(_.join(['index', 'module', 'loaded!'], ' '))
+  element.appendChild(mod)
+
   return element
 }
+componentFn().then(component=>{
+  document.body.appendChild(component)
+})
 
-document.body.appendChild(component())

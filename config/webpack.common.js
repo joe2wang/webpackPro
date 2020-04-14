@@ -6,19 +6,33 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
   entry: {
     example: './src/example.js',
-    another: './src/another.js'
+
   },
   output: {
-    filename: '[name].bundle.js',
+    filename:'[name].bundle.js',
+    chunkFilename: '[name].chunk.js',
     path: path.resolve(__dirname, '../dist')
   },
   optimization: {
-    splitChunks: {
-      name: 'common'
+    splitChunks: {//分离共用的lodash
+      chunks:'all',//制定split Chunk 的类型：all、initial、async，默认initial，只会选择第一个分离，这里设置为all
+      name: 'lodash' //指定公共 bundle 的名称。
     }
   },
   module: {
     rules: [
+      {
+        ///js ES2015+预发预处理器
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins:['@babel/plugin-transform-runtime']
+          }
+        }
+      },
       {
         test: /\.css$/,
         use: ExtractTextWebpackPlugin.extract({
@@ -38,6 +52,7 @@ module.exports = {
         test: /\.(jpg|svg|png|gif|ttf)$/,
         use: [
           {
+            //具体配置，请看官网：https://webpack.js.org/loaders/file-loader/
             loader: 'file-loader',
             options: {
               outputPath: 'images'

@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'MyFont';
-    src: url('./font/font.ttf') format('ttf');
+    src: url('../font/font.ttf') format('ttf');
     font-weight: 600;
     font-style: normal;
 }
@@ -8,5 +8,5 @@
 .hello {
     color: #ddd;
     font-family: 'MyFont';
-    background: url('./images/file.jpg')no-repeat center center;
+    background: url('../images/file.jpg')no-repeat center center;
 }
